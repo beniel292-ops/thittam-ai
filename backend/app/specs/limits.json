@@ -1,0 +1,7 @@
+{
+  "match_rpm": 10,
+  "chat_rpm": 10,
+  "read_rpm": 30,
+  "max_question_chars": 500,
+  "max_history_turns": 6
+}

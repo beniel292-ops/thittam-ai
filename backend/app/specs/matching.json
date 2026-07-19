@@ -1,0 +1,15 @@
+{
+  "candidate_limit": 20,
+  "llm_timeout_s": 20,
+  "retry_attempts": 2,
+  "retry_backoff_s": 5,
+  "confidence_labels": {
+    "yes": { "en": "Eligible", "ta": "தகுதி உண்டு" },
+    "likely": { "en": "Likely Eligible", "ta": "தகுதி இருக்கலாம்" }
+  },
+  "rank_weights": {
+    "yes": 0,
+    "likely": 100
+  },
+  "closest_miss_count": 3
+}
