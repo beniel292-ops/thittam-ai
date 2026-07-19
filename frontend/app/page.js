@@ -45,6 +45,10 @@ export default function LandingPage() {
           </div>
         ))}
       </section>
+
+      <Link href="/about" className="text-center text-sm font-semibold text-primary-600 underline">
+        {t("aboutLink")}
+      </Link>
     </div>
   );
 }

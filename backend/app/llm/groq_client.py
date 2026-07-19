@@ -49,6 +49,14 @@ def call_llm(messages: list[dict], temperature: float, max_tokens: int,
     backoff = matching["retry_backoff_s"]
     first_try = True
     for model in (models["primary"], models["fallback"]):
+        # The fallback model has a smaller per-minute token budget; requests
+        # whose prompt + max_tokens exceed it are rejected outright (413).
+        # Cap the output size so the fallback path always fits.
+        model_payload = {**payload, "model": model}
+        if model == models["fallback"]:
+            model_payload["max_tokens"] = min(
+                payload["max_tokens"], models["fallback_max_tokens"]
+            )
         for attempt in range(1, attempts + 1):
             if not first_try:
                 time.sleep(backoff)  # give rate limits room before retrying
@@ -56,7 +64,7 @@ def call_llm(messages: list[dict], temperature: float, max_tokens: int,
             try:
                 response = httpx.post(
                     GROQ_CHAT_URL,
-                    json={**payload, "model": model},
+                    json=model_payload,
                     headers=headers,
                     timeout=timeout,
                 )
